@@ -25,16 +25,16 @@ export class AppComponent {
     }
   }
 
+  updateNewMember(value: string) {
+    this.newMember = value;
+  }
+
   private setError(field: keyof typeof this.errors) {
     this.errors[field] = true;
   }
 
   private unsetError(field: keyof typeof this.errors) {
     this.errors[field] = false;
-  }
-
-  updateNewMember(value: string) {
-    this.newMember = value;
   }
 
   private resetNewMember() {

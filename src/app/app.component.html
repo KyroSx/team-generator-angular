@@ -1,23 +1,29 @@
-<h2>Team Generator</h2>
+<div class="container">
+  <h2>Team Generator</h2>
 
-<div>
-  <input
-    #addMemberInput
-    type="text"
-    placeholder="Name"
-    [ngClass]="errors.newMember ? 'input_error' : ''"
-    [value]="newMember"
-    (input)="updateNewMember(addMemberInput.value)" />
+  <div class="add_member_container">
+    <input
+      #addMemberInput
+      type="text"
+      placeholder="Name"
+      [ngClass]="'input ' + (errors.newMember ? 'input_error' : '')"
+      [value]="newMember"
+      (input)="updateNewMember(addMemberInput.value)" />
 
-  <button (click)="addMember()">Add</button>
-</div>
+    <button class="add_member_button" (click)="addMember()">Add</button>
+  </div>
 
-<span class="error_message" *ngIf="errors.newMember">Name cant be blank</span>
+  <span class="error_message" *ngIf="errors.newMember">Name cant be blank</span>
 
-<div>
-  <ul>
-    <li *ngFor="let member of service.members">
-      {{ member }}
-    </li>
-  </ul>
+  <div class="members_container" *ngIf="service.hasMembers">
+    <h3>Members</h3>
+
+    <div>
+      <ul class="members">
+        <li class="member" *ngFor="let member of service.members">
+          {{ member }}
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

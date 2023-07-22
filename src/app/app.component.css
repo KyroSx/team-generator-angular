@@ -1,9 +1,52 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  gap: 8px;
+
+  margin: 0 auto;
+}
+
+
+.add_member_container {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.input {
+  padding: 6px;
+  border-radius: 7px;
+}
+
 .input_error {
   border: 1px red;
   border-style: solid;
 }
 
 .error_message {
-  font-size: 16px;
+  font-size: 18px;
   color: red;
+}
+
+.add_member_button {
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+
+.members_container {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 10px;
+}
+
+.members {
+  list-style-type: none;
+}
+
+.member {
+  margin-left: 8px;
+  text-decoration: none;
 }

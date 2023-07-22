@@ -12,6 +12,10 @@ export class TeamsService {
     this.members.push(member);
   }
 
+  get hasMembers() {
+    return this.members.length > 0;
+  }
+
   private validateMember(member: string) {
     if (this.isEmpty(member)) {
       throw new NewMemberBlank();
