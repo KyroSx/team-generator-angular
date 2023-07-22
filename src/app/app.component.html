@@ -5,11 +5,14 @@
     #addMemberInput
     type="text"
     placeholder="Name"
+    [ngClass]="errors.newMember ? 'input_error' : ''"
     [value]="newMember"
     (input)="updateNewMember(addMemberInput.value)" />
 
   <button (click)="addMember()">Add</button>
 </div>
+
+<span class="error_message" *ngIf="errors.newMember">Name cant be blank</span>
 
 <div>
   <ul>
