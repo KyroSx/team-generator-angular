@@ -1,0 +1,10 @@
+.header {
+  background-color: var(--text-color);
+  padding: 16px;
+  color: var(--background-light-color);
+}
+
+.container {
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
