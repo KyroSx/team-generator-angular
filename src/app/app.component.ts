@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TeamsService } from './teams.service';
 import { NewMemberBlank } from './errors';
+import { FormService } from './form.service';
 
 @Component({
   selector: 'app-root',
@@ -8,36 +9,20 @@ import { NewMemberBlank } from './errors';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  newMember = '';
-  errors = { newMember: false };
-
-  constructor(public service: TeamsService) {}
+  constructor(
+    public service: TeamsService,
+    public form: FormService
+  ) {}
 
   addMember() {
-    this.unsetError('newMember');
+    this.form.unsetError('newMember');
     try {
-      this.service.addMember(this.newMember);
-      this.resetNewMember();
+      this.service.addMember(this.form.newMember);
+      this.form.resetNewMember();
     } catch (error) {
       if (error instanceof NewMemberBlank) {
-        this.setError('newMember');
+        this.form.setError('newMember');
       }
     }
-  }
-
-  updateNewMember(value: string) {
-    this.newMember = value;
-  }
-
-  private setError(field: keyof typeof this.errors) {
-    this.errors[field] = true;
-  }
-
-  private unsetError(field: keyof typeof this.errors) {
-    this.errors[field] = false;
-  }
-
-  private resetNewMember() {
-    this.newMember = '';
   }
 }

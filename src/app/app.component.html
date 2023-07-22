@@ -6,14 +6,16 @@
       #addMemberInput
       type="text"
       placeholder="Name"
-      [ngClass]="'input ' + (errors.newMember ? 'input_error' : '')"
-      [value]="newMember"
-      (input)="updateNewMember(addMemberInput.value)" />
+      [ngClass]="{ input: true, input_error: form.errors.newMember }"
+      [value]="form.newMember"
+      (input)="form.updateNewMember(addMemberInput.value)" />
 
     <button class="add_member_button" (click)="addMember()">Add</button>
   </div>
 
-  <span class="error_message" *ngIf="errors.newMember">Name cant be blank</span>
+  <span class="error_message" *ngIf="form.errors.newMember"
+    >Name cant be blank
+  </span>
 
   <div class="members_container" *ngIf="service.hasMembers">
     <h3>Members</h3>
