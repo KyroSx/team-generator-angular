@@ -35,6 +35,10 @@ class Sut {
     return this.getElement<HTMLUListElement>('.members');
   }
 
+  get memberErrorMessage() {
+    return this.getElement<HTMLSpanElement>('.error_message');
+  }
+
   typeOnMemberInput(memberName: string) {
     this.newMemberInput.value = memberName;
     this.newMemberInput.dispatchEvent(new Event('input'));
@@ -67,10 +71,26 @@ describe('App Component', () => {
     sut.detectChanges();
 
     expect(sut.newMemberInput.value).toEqual('Member Name');
+    expect(sut.newMemberInput).toHaveClass('input');
 
     sut.clickOnAddButton();
     sut.detectChanges();
 
     expect(sut.membersList.textContent).toContain('Member Name');
+  });
+
+  it('shows error message if member is blank', async () => {
+    sut.typeOnMemberInput('');
+    sut.detectChanges();
+
+    expect(sut.newMemberInput.value).toEqual('');
+
+    sut.clickOnAddButton();
+    sut.detectChanges();
+
+    expect(sut.membersList).toBeNull();
+    expect(sut.memberErrorMessage.textContent).toContain('Name cant be blank');
+    expect(sut.newMemberInput).toHaveClass('input_error');
+    expect(sut.newMemberInput).toHaveClass('input');
   });
 });
