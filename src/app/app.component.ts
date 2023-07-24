@@ -15,8 +15,8 @@ export class AppComponent {
   ) {}
 
   addMember() {
-    this.form.unsetError('newMember');
     try {
+      this.form.unsetError('newMember');
       this.service.addMember(this.form.newMember);
       this.form.resetNewMember();
     } catch (error) {
@@ -28,6 +28,7 @@ export class AppComponent {
 
   generateTeams() {
     try {
+      this.form.unsetError('teams');
       this.service.generateTeams(this.form.numberOfTeams);
     } catch (error) {
       this.form.setError('teams');

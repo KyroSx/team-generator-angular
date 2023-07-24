@@ -1,6 +1,5 @@
 import { AppComponent } from './app.component';
 import { ComponentSut } from './testing/ComponentSut';
-import { TestBed } from '@angular/core/testing';
 
 class Sut extends ComponentSut<AppComponent> {
   constructor() {
@@ -29,6 +28,12 @@ class Sut extends ComponentSut<AppComponent> {
 
   get memberErrorMessage() {
     return this.getElement<HTMLSpanElement>('.error_message');
+  }
+
+  get teamsErrorMessage() {
+    return this.getElement<HTMLSpanElement>(
+      '[aria-label="generate teams error message"]'
+    );
   }
 
   get addMemberButton() {
@@ -158,5 +163,43 @@ describe('App Component', () => {
         expect(members.length).toEqual(test.membersPerTeam);
       });
     });
+  });
+
+  it('shows and reset error message if have no enough members', () => {
+    const numberOfTeams = 6;
+    const members = ['Member Name', 'Member Name #2', 'Member Name #3'];
+
+    members.forEach(member => {
+      sut.typeOnMemberInput(member);
+      sut.detectChanges();
+
+      sut.clickOnAddButton();
+      sut.detectChanges();
+    });
+
+    sut.typeNumberOfTeams(numberOfTeams);
+    sut.detectChanges();
+
+    sut.clickOnGenerateTeamsButton();
+    sut.detectChanges();
+
+    expect(sut.numberOfTeamsInput).toHaveClass('input_error');
+    expect(sut.teamsErrorMessage.textContent).toContain(
+      'There are no enough members to generate teams.'
+    );
+
+    members.forEach(member => {
+      sut.typeOnMemberInput(member);
+      sut.detectChanges();
+
+      sut.clickOnAddButton();
+      sut.detectChanges();
+    });
+
+    sut.clickOnGenerateTeamsButton();
+    sut.detectChanges();
+
+    expect(sut.numberOfTeamsInput).not.toHaveClass('input_error');
+    expect(sut.teamsErrorMessage).toBeFalsy();
   });
 });

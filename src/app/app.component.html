@@ -41,7 +41,12 @@
         </button>
       </div>
 
-      <span class="error_message" *ngIf="form.errors.teams"> error </span>
+      <span
+        class="error_message"
+        *ngIf="form.errors.teams"
+        aria-label="generate teams error message">
+        There are no enough members to generate teams.
+      </span>
 
       <ul class="teams">
         <li class="team_member" *ngFor="let team of service.teams">
