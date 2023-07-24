@@ -57,6 +57,20 @@ describe('App Component', () => {
     expect(sut.membersList.textContent).toContain('Member Name');
   });
 
+  it('adds multiple members to the list', () => {
+    const members = ['Member Name', 'Member Name #2', 'Member Name #3'];
+
+    members.forEach(member => {
+      sut.typeOnMemberInput(member);
+      sut.detectChanges();
+
+      sut.clickOnAddButton();
+      sut.detectChanges();
+
+      expect(sut.membersList.textContent).toContain(member);
+    });
+  });
+
   it('shows error message if member is blank', async () => {
     sut.typeOnMemberInput('');
     sut.detectChanges();
