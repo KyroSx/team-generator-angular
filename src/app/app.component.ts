@@ -25,4 +25,12 @@ export class AppComponent {
       }
     }
   }
+
+  generateTeams() {
+    try {
+      this.service.generateTeams(this.form.numberOfTeams);
+    } catch (error) {
+      this.form.setError('teams');
+    }
+  }
 }

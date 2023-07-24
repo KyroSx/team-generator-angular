@@ -50,3 +50,18 @@
   margin-left: 8px;
   text-decoration: none;
 }
+
+
+.generate_teams_button {
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+.teams {
+  list-style-type: none;
+}
+
+.team_member {
+  margin-left: 8px;
+  text-decoration: none;
+}

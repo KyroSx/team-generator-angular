@@ -26,6 +26,28 @@
           {{ member }}
         </li>
       </ul>
+
+      <div class="add_member_container">
+        <input
+          #generateNumberOfTeams
+          type="number"
+          placeholder="# of teams"
+          [ngClass]="{ input: true, input_error: form.errors.teams }"
+          [value]="form.numberOfTeams"
+          (input)="form.updateNumberOfTeams(generateNumberOfTeams.value)" />
+
+        <button class="generate_teams_button" (click)="generateTeams()">
+          Generate
+        </button>
+      </div>
+
+      <span class="error_message" *ngIf="form.errors.teams"> error </span>
+
+      <ul class="teams">
+        <li class="team_member" *ngFor="let team of service.teams">
+          {{ team }}
+        </li>
+      </ul>
     </div>
   </div>
 </div>

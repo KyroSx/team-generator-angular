@@ -3,7 +3,7 @@ import {
   ComponentFixtureAutoDetect,
   TestBed,
 } from '@angular/core/testing';
-import { Type } from '@angular/core';
+import { DebugElement, Predicate, Type } from '@angular/core';
 
 export class ComponentSut<Component> {
   component!: Component;
@@ -37,6 +37,10 @@ export class ComponentSut<Component> {
 
   protected getElement<HTMLElement>(selector: string): HTMLElement {
     return this.fixture.nativeElement.querySelector(selector);
+  }
+
+  protected getAllElements<HTMLElement>(selector: string): HTMLElement[] {
+    return this.fixture.nativeElement.querySelectorAll(selector);
   }
 
   private async configureTestModule() {

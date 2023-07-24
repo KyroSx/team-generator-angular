@@ -5,10 +5,15 @@ import { Injectable } from '@angular/core';
 })
 export class FormService {
   newMember = '';
-  errors = { newMember: false };
+  numberOfTeams = 0;
+  errors = { newMember: false, teams: false };
 
   updateNewMember(value: string) {
     this.newMember = value;
+  }
+
+  updateNumberOfTeams(number: string) {
+    this.numberOfTeams = Number(number);
   }
 
   setError(field: keyof typeof this.errors) {

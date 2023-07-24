@@ -10,6 +10,18 @@ class Sut extends ComponentSut<AppComponent> {
     return this.getElement<HTMLInputElement>('.input');
   }
 
+  get numberOfTeamsInput() {
+    return this.getElement<HTMLInputElement>('[placeholder="# of teams"]');
+  }
+
+  get numberOfTeamsButton() {
+    return this.getElement<HTMLButtonElement>('.generate_teams_button');
+  }
+
+  get teamsList() {
+    return this.getAllElements<HTMLLIElement>('.team_member');
+  }
+
   get membersList() {
     return this.getElement<HTMLUListElement>('.members');
   }
@@ -26,8 +38,16 @@ class Sut extends ComponentSut<AppComponent> {
     this.dispatchInputEvent(this.newMemberInput, memberName);
   }
 
+  typeNumberOfTeams(numberOfTeams: number) {
+    this.dispatchInputEvent(this.numberOfTeamsInput, numberOfTeams.toString());
+  }
+
   clickOnAddButton() {
     this.dispatchClickEvent(this.addMemberButton);
+  }
+
+  clickOnGenerateTeamsButton() {
+    this.dispatchClickEvent(this.numberOfTeamsButton);
   }
 }
 
@@ -71,7 +91,7 @@ describe('App Component', () => {
     });
   });
 
-  it('shows error message if member is blank', async () => {
+  it('shows error message if member is blank', () => {
     sut.typeOnMemberInput('');
     sut.detectChanges();
 
@@ -84,5 +104,30 @@ describe('App Component', () => {
     expect(sut.memberErrorMessage.textContent).toContain('Name cant be blank');
     expect(sut.newMemberInput).toHaveClass('input_error');
     expect(sut.newMemberInput).toHaveClass('input');
+  });
+
+  it('generate random teams with inputted members', () => {
+    const members = [
+      'Member Name',
+      'Member Name #2',
+      'Member Name #3',
+      'Member Name #4',
+    ];
+
+    members.forEach(member => {
+      sut.typeOnMemberInput(member);
+      sut.detectChanges();
+
+      sut.clickOnAddButton();
+      sut.detectChanges();
+    });
+
+    sut.typeNumberOfTeams(2);
+    sut.detectChanges();
+
+    sut.clickOnGenerateTeamsButton();
+    sut.detectChanges();
+
+    expect(sut.teamsList.length).toBe(2);
   });
 });
