@@ -1,6 +1,10 @@
 import { AppComponent } from './app.component';
 import { ComponentSut } from './testing/ComponentSut';
-import { NewMemberBlank, NoEnoughMembers } from './errors';
+import {
+  NewMemberBlank,
+  NoEnoughMembers,
+  NumberOfTeamsBellowThanOrZero,
+} from './errors';
 
 class Sut extends ComponentSut<AppComponent> {
   constructor() {
@@ -204,5 +208,29 @@ describe('App Component', () => {
 
     expect(sut.numberOfTeamsInput).not.toHaveClass('input_error');
     expect(sut.teamsErrorMessage).toBeFalsy();
+  });
+
+  it('shows error if number of teams is bellow than/or zero', async () => {
+    const numberOfTeams = 0;
+    const members = ['Member Name', 'Member Name #2', 'Member Name #3'];
+
+    members.forEach(member => {
+      sut.typeOnMemberInput(member);
+      sut.detectChanges();
+
+      sut.clickOnAddButton();
+      sut.detectChanges();
+    });
+
+    sut.typeNumberOfTeams(numberOfTeams);
+    sut.detectChanges();
+
+    sut.clickOnGenerateTeamsButton();
+    sut.detectChanges();
+
+    expect(sut.numberOfTeamsInput).toHaveClass('input_error');
+    expect(sut.teamsErrorMessage.textContent).toContain(
+      NumberOfTeamsBellowThanOrZero.message
+    );
   });
 });

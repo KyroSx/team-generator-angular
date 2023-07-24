@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { NewMemberBlank, NoEnoughMembers } from './errors';
+import {
+  NewMemberBlank,
+  NoEnoughMembers,
+  NumberOfTeamsBellowThanOrZero,
+} from './errors';
 
 @Injectable({
   providedIn: 'root',
@@ -43,13 +47,21 @@ export class TeamsService {
   }
 
   private validateTeamGeneration(numberOfTeams: number) {
-    if (numberOfTeams <= 0) {
-      throw new Error('Number of teams should be greater than 0.');
+    if (this.isBellowOrEqualZero(numberOfTeams)) {
+      throw new NumberOfTeamsBellowThanOrZero();
     }
 
-    if (this.membersSize < numberOfTeams) {
+    if (this.isBellowThanMemberSize(numberOfTeams)) {
       throw new NoEnoughMembers();
     }
+  }
+
+  private isBellowOrEqualZero(numberOfTeams: number) {
+    return numberOfTeams <= 0;
+  }
+
+  private isBellowThanMemberSize(numberOfTeams: number) {
+    return this.membersSize < numberOfTeams;
   }
 
   private isEmpty(member: string) {

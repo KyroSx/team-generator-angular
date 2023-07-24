@@ -13,3 +13,11 @@ export class NoEnoughMembers extends Error {
     super(NoEnoughMembers.message);
   }
 }
+
+export class NumberOfTeamsBellowThanOrZero extends Error {
+  static message = 'Number of teams should be greater than 0.';
+
+  constructor() {
+    super(NumberOfTeamsBellowThanOrZero.message);
+  }
+}
