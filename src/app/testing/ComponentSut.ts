@@ -3,7 +3,8 @@ import {
   ComponentFixtureAutoDetect,
   TestBed,
 } from '@angular/core/testing';
-import { DebugElement, Predicate, Type } from '@angular/core';
+import { Type } from '@angular/core';
+import { SharedComponentsModule } from '../components';
 
 export class ComponentSut<Component> {
   component!: Component;
@@ -50,6 +51,7 @@ export class ComponentSut<Component> {
   private async configureTestModule() {
     await TestBed.configureTestingModule({
       declarations: [this.componentDefinition],
+      imports: [SharedComponentsModule],
       providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }],
     }).compileComponents();
   }

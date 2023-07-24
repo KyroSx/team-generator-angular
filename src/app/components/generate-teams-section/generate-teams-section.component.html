@@ -1,0 +1,20 @@
+<div class="generate_teams_container">
+  <input
+    #generateNumberOfTeams
+    type="number"
+    placeholder="# of teams"
+    [ngClass]="{ input: true, input_error: error }"
+    [value]="numberOfTeams"
+    (input)="onUpdateNumberOfTeams(Number(generateNumberOfTeams.value))" />
+
+  <button class="generate_teams_button" (click)="onGenerateTeams()">
+    Generate
+  </button>
+</div>
+
+<span
+  class="error_message"
+  *ngIf="error"
+  aria-label="generate teams error message">
+  {{ error }}
+</span>

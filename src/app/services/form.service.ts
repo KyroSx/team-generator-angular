@@ -12,8 +12,8 @@ export class FormService {
     this.newMember = value;
   }
 
-  updateNumberOfTeams(number: string) {
-    this.numberOfTeams = Number(number);
+  updateNumberOfTeams(number: number) {
+    this.numberOfTeams = number;
   }
 
   setError(field: keyof typeof this.errors, message: string) {

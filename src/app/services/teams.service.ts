@@ -20,17 +20,7 @@ export class TeamsService {
   generateTeams(numberOfTeams: number) {
     this.validateTeamGeneration(numberOfTeams);
     this.resetTeams();
-    const members = [...this.members];
-
-    while (members.length) {
-      for (let i = 0; i < numberOfTeams; i++) {
-        const randomIndex = Math.floor(Math.random() * members.length);
-        const [member] = members.splice(randomIndex, 1);
-
-        this.teams[i] ? this.teams[i].push(member) : (this.teams[i] = [member]);
-      }
-    }
-
+    this.generateRandomTeams(this.members, numberOfTeams);
     this.resetMembers();
   }
 
@@ -48,6 +38,25 @@ export class TeamsService {
 
   get membersSize() {
     return this.members.length;
+  }
+
+  private generateRandomTeams([...members]: string[], numberOfTeams: number) {
+    while (members.length) {
+      for (let index = 0; index < numberOfTeams; index++) {
+        const member = this.removeRandomMember(members);
+
+        this.teams[index]
+          ? this.teams[index].push(member)
+          : (this.teams[index] = [member]);
+      }
+    }
+  }
+
+  private removeRandomMember(members: string[]) {
+    const randomIndex = Math.floor(Math.random() * members.length);
+    const [member] = members.splice(randomIndex, 1);
+
+    return member;
   }
 
   private validateMember(member: string) {

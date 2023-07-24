@@ -5,6 +5,7 @@ import {
   NoEnoughMembers,
   NumberOfTeamsBellowThanOrZero,
 } from './errors';
+import { TeamsService } from './services';
 
 class Sut extends ComponentSut<AppComponent> {
   constructor() {

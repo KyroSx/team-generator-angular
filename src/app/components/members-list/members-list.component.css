@@ -1,0 +1,8 @@
+.members {
+  list-style-type: none;
+}
+
+.member {
+  margin-left: 8px;
+  text-decoration: none;
+}

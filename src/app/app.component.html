@@ -1,58 +1,25 @@
 <div class="container">
   <h2>Team Generator</h2>
 
-  <div class="add_member_container">
-    <input
-      #addMemberInput
-      type="text"
-      placeholder="Name"
-      [ngClass]="{ input: true, input_error: form.errors.newMember }"
-      [value]="form.newMember"
-      (input)="form.updateNewMember(addMemberInput.value)" />
-
-    <button class="add_member_button" (click)="addMember()">Add</button>
-  </div>
-
-  <span class="error_message" *ngIf="form.errors.newMember">
-    {{ form.errors.newMember }}
-  </span>
+  <app-add-member-section
+    [newMember]="form.newMember"
+    [error]="form.errors.newMember"
+    (addNewMemberEvent)="form.updateNewMember($event)"
+    (addEvent)="addMember()" />
 
   <div class="members_container">
-    <h3>Members</h3>
+    <h3>Members:</h3>
 
-    <div>
-      <ul class="members">
-        <li class="member" *ngFor="let member of service.members">
-          {{ member }}
-        </li>
-      </ul>
+    <app-members-list [members]="service.members" />
+  </div>
 
-      <div class="add_member_container">
-        <input
-          #generateNumberOfTeams
-          type="number"
-          placeholder="# of teams"
-          [ngClass]="{ input: true, input_error: form.errors.teams }"
-          [value]="form.numberOfTeams"
-          (input)="form.updateNumberOfTeams(generateNumberOfTeams.value)" />
+  <div>
+    <app-generate-teams-section
+      [numberOfTeams]="form.numberOfTeams"
+      [error]="form.errors.teams"
+      (updateNumberOfTeamsEvent)="form.updateNumberOfTeams($event)"
+      (generateTeamsEvent)="generateTeams()" />
 
-        <button class="generate_teams_button" (click)="generateTeams()">
-          Generate
-        </button>
-      </div>
-
-      <span
-        class="error_message"
-        *ngIf="form.errors.teams"
-        aria-label="generate teams error message">
-        {{ form.errors.teams }}
-      </span>
-
-      <ul class="teams">
-        <li class="team_member" *ngFor="let team of service.teams">
-          {{ team.join(', ') }}
-        </li>
-      </ul>
-    </div>
+    <app-teams-section [teams]="service.teams" />
   </div>
 </div>
