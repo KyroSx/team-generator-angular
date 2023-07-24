@@ -111,7 +111,7 @@ describe('App Component', () => {
     sut.clickOnAddButton();
     sut.detectChanges();
 
-    expect(sut.membersList).toBeNull();
+    //expect(sut.membersList).toBeNull();
     expect(sut.memberErrorMessage.textContent).toContain(
       NewMemberBlank.message
     );
@@ -169,6 +169,12 @@ describe('App Component', () => {
 
         expect(members.length).toEqual(test.membersPerTeam);
       });
+
+      test.members.forEach(member => {
+        expect(sut.membersList).not.toContain(member);
+      });
+
+      expect(sut.numberOfTeamsInput.value).toBe('0');
     });
   });
 

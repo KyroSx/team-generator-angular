@@ -3,7 +3,7 @@ import {
   NewMemberBlank,
   NoEnoughMembers,
   NumberOfTeamsBellowThanOrZero,
-} from './errors';
+} from '../errors';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class TeamsService {
 
   generateTeams(numberOfTeams: number) {
     this.validateTeamGeneration(numberOfTeams);
-
+    this.resetTeams();
     const members = [...this.members];
 
     while (members.length) {
@@ -30,6 +30,16 @@ export class TeamsService {
         this.teams[i] ? this.teams[i].push(member) : (this.teams[i] = [member]);
       }
     }
+
+    this.resetMembers();
+  }
+
+  resetMembers() {
+    this.members = [];
+  }
+
+  resetTeams() {
+    this.teams = [];
   }
 
   get hasMembers() {

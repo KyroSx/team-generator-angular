@@ -27,4 +27,8 @@ export class FormService {
   resetNewMember() {
     this.newMember = '';
   }
+
+  resetNumberOfTeams() {
+    this.numberOfTeams = 0;
+  }
 }
