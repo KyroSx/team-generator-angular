@@ -1,5 +1,6 @@
 import { AppComponent } from './app.component';
 import { ComponentSut } from './testing/ComponentSut';
+import { NewMemberBlank, NoEnoughMembers } from './errors';
 
 class Sut extends ComponentSut<AppComponent> {
   constructor() {
@@ -107,7 +108,9 @@ describe('App Component', () => {
     sut.detectChanges();
 
     expect(sut.membersList).toBeNull();
-    expect(sut.memberErrorMessage.textContent).toContain('Name cant be blank');
+    expect(sut.memberErrorMessage.textContent).toContain(
+      NewMemberBlank.message
+    );
     expect(sut.newMemberInput).toHaveClass('input_error');
     expect(sut.newMemberInput).toHaveClass('input');
   });
@@ -185,7 +188,7 @@ describe('App Component', () => {
 
     expect(sut.numberOfTeamsInput).toHaveClass('input_error');
     expect(sut.teamsErrorMessage.textContent).toContain(
-      'There are no enough members to generate teams.'
+      NoEnoughMembers.message
     );
 
     members.forEach(member => {

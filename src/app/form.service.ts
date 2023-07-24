@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class FormService {
   newMember = '';
   numberOfTeams = 0;
-  errors = { newMember: false, teams: false };
+  errors = { newMember: '', teams: '' };
 
   updateNewMember(value: string) {
     this.newMember = value;
@@ -16,12 +16,12 @@ export class FormService {
     this.numberOfTeams = Number(number);
   }
 
-  setError(field: keyof typeof this.errors) {
-    this.errors[field] = true;
+  setError(field: keyof typeof this.errors, message: string) {
+    this.errors[field] = message;
   }
 
   unsetError(field: keyof typeof this.errors) {
-    this.errors[field] = false;
+    this.errors[field] = '';
   }
 
   resetNewMember() {

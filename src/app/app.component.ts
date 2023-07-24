@@ -21,7 +21,7 @@ export class AppComponent {
       this.form.resetNewMember();
     } catch (error) {
       if (error instanceof NewMemberBlank) {
-        this.form.setError('newMember');
+        this.form.setError('newMember', error.message);
       }
     }
   }
@@ -31,7 +31,9 @@ export class AppComponent {
       this.form.unsetError('teams');
       this.service.generateTeams(this.form.numberOfTeams);
     } catch (error) {
-      this.form.setError('teams');
+      if (error instanceof Error) {
+        this.form.setError('teams', error.message);
+      }
     }
   }
 }

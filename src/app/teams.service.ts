@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NewMemberBlank } from './errors';
+import { NewMemberBlank, NoEnoughMembers } from './errors';
 
 @Injectable({
   providedIn: 'root',
@@ -13,24 +13,13 @@ export class TeamsService {
     this.members.push(member);
   }
 
-  generateTeams(number: number) {
-    if (number <= 0) {
-      throw new Error('Number of teams should be greater than 0.');
-    }
+  generateTeams(numberOfTeams: number) {
+    this.validateTeamGeneration(numberOfTeams);
 
-    if (!this.hasMembers) {
-      throw new Error('There are no members to generate teams.');
-    }
-
-    if (this.membersSize < number) {
-      throw new Error('There are no enough members to generate teams.');
-    }
-
-    this.teams = [];
     const members = [...this.members];
 
     while (members.length) {
-      for (let i = 0; i < number; i++) {
+      for (let i = 0; i < numberOfTeams; i++) {
         const randomIndex = Math.floor(Math.random() * members.length);
         const [member] = members.splice(randomIndex, 1);
 
@@ -50,6 +39,16 @@ export class TeamsService {
   private validateMember(member: string) {
     if (this.isEmpty(member)) {
       throw new NewMemberBlank();
+    }
+  }
+
+  private validateTeamGeneration(numberOfTeams: number) {
+    if (numberOfTeams <= 0) {
+      throw new Error('Number of teams should be greater than 0.');
+    }
+
+    if (this.membersSize < numberOfTeams) {
+      throw new NoEnoughMembers();
     }
   }
 
