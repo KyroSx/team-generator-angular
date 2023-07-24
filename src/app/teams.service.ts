@@ -26,6 +26,7 @@ export class TeamsService {
       throw new Error('There are no enough members to generate teams.');
     }
 
+    this.teams = [];
     const members = [...this.members];
 
     while (members.length) {

@@ -45,7 +45,7 @@
 
       <ul class="teams">
         <li class="team_member" *ngFor="let team of service.teams">
-          {{ team }}
+          {{ team.join(', ') }}
         </li>
       </ul>
     </div>

@@ -1,5 +1,6 @@
 import { AppComponent } from './app.component';
 import { ComponentSut } from './testing/ComponentSut';
+import { TestBed } from '@angular/core/testing';
 
 class Sut extends ComponentSut<AppComponent> {
   constructor() {
@@ -106,28 +107,56 @@ describe('App Component', () => {
     expect(sut.newMemberInput).toHaveClass('input');
   });
 
-  it('generate random teams with inputted members', () => {
-    const members = [
-      'Member Name',
-      'Member Name #2',
-      'Member Name #3',
-      'Member Name #4',
-    ];
+  const cases = [
+    {
+      id: '6 members for 3 teams',
+      members: [
+        'Member Name #1',
+        'Member Name #2',
+        'Member Name #3',
+        'Member Name #4',
+        'Member Name #5',
+        'Member Name #6',
+      ],
+      numberOfTeams: 3,
+      membersPerTeam: 2,
+    },
+    {
+      id: '4 members for 2 teams',
+      members: [
+        'Member Name #1',
+        'Member Name #2',
+        'Member Name #3',
+        'Member Name #4',
+      ],
+      numberOfTeams: 2,
+      membersPerTeam: 2,
+    },
+  ];
 
-    members.forEach(member => {
-      sut.typeOnMemberInput(member);
+  cases.forEach(test => {
+    it(`generate random teams with inputted:  ${test.id}`, () => {
+      test.members.forEach(member => {
+        sut.typeOnMemberInput(member);
+        sut.detectChanges();
+
+        sut.clickOnAddButton();
+        sut.detectChanges();
+      });
+
+      sut.typeNumberOfTeams(test.numberOfTeams);
       sut.detectChanges();
 
-      sut.clickOnAddButton();
+      sut.clickOnGenerateTeamsButton();
       sut.detectChanges();
+
+      expect(sut.teamsList.length).toBe(test.numberOfTeams);
+
+      sut.teamsList.forEach(element => {
+        const members = element.textContent!.trim().split(', ');
+
+        expect(members.length).toEqual(test.membersPerTeam);
+      });
     });
-
-    sut.typeNumberOfTeams(2);
-    sut.detectChanges();
-
-    sut.clickOnGenerateTeamsButton();
-    sut.detectChanges();
-
-    expect(sut.teamsList.length).toBe(2);
   });
 });

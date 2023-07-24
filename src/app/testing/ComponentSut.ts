@@ -26,6 +26,10 @@ export class ComponentSut<Component> {
     this.fixture.detectChanges();
   }
 
+  resetComponent() {
+    TestBed.resetTestingModule();
+  }
+
   protected dispatchInputEvent(input: HTMLInputElement, value: string) {
     input.value = value;
     input.dispatchEvent(new Event('input'));
