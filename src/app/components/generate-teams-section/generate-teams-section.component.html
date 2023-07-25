@@ -1,0 +1,13 @@
+<div class="generate_teams_container">
+  <app-input
+    type="number"
+    placeholder="# of teams"
+    [value]="numberOfTeams.toString()"
+    [error]="error"
+    error_id="team_error_message"
+    (inputEvent)="onUpdateNumberOfTeams(Number($event))" />
+
+  <button class="generate_teams_button" (click)="onGenerateTeams()">
+    Generate
+  </button>
+</div>

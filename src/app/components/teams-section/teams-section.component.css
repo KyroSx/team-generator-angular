@@ -1,0 +1,9 @@
+.teams {
+  list-style-type: none;
+}
+
+.team_member {
+  margin-left: 8px;
+  text-decoration: none;
+}
+

@@ -1,31 +1,25 @@
 <div class="container">
   <h2>Team Generator</h2>
 
-  <div class="add_member_container">
-    <input
-      #addMemberInput
-      type="text"
-      placeholder="Name"
-      [ngClass]="{ input: true, input_error: form.errors.newMember }"
-      [value]="form.newMember"
-      (input)="form.updateNewMember(addMemberInput.value)" />
+  <app-add-member-section
+    [newMember]="form.newMember"
+    [error]="form.errors.newMember"
+    (addNewMemberEvent)="form.updateNewMember($event)"
+    (addEvent)="addMember()" />
 
-    <button class="add_member_button" (click)="addMember()">Add</button>
+  <div class="members_container">
+    <h3>Members:</h3>
+
+    <app-members-list [members]="service.members" />
   </div>
 
-  <span class="error_message" *ngIf="form.errors.newMember">
-    Name cant be blank
-  </span>
+  <div>
+    <app-generate-teams-section
+      [numberOfTeams]="form.numberOfTeams"
+      [error]="form.errors.teams"
+      (updateNumberOfTeamsEvent)="form.updateNumberOfTeams($event)"
+      (generateTeamsEvent)="generateTeams()" />
 
-  <div class="members_container" *ngIf="service.hasMembers">
-    <h3>Members</h3>
-
-    <div>
-      <ul class="members">
-        <li class="member" *ngFor="let member of service.members">
-          {{ member }}
-        </li>
-      </ul>
-    </div>
+    <app-teams-section [teams]="service.teams" />
   </div>
 </div>

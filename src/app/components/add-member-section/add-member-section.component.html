@@ -1,0 +1,9 @@
+<div class="add_member_container">
+  <app-input
+    placeholder="Name"
+    [value]="newMember"
+    [error]="error"
+    (inputEvent)="onAddNewMember($event.toString())" />
+
+  <button class="add_member_button" (click)="onAdd()">Add</button>
+</div>

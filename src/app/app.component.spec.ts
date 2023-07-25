@@ -1,5 +1,10 @@
 import { AppComponent } from './app.component';
 import { ComponentSut } from './testing/ComponentSut';
+import {
+  NewMemberBlank,
+  NoEnoughMembers,
+  NumberOfTeamsBellowThanOrZero,
+} from './errors';
 
 class Sut extends ComponentSut<AppComponent> {
   constructor() {
@@ -7,7 +12,21 @@ class Sut extends ComponentSut<AppComponent> {
   }
 
   get newMemberInput() {
-    return this.getElement<HTMLInputElement>('.input');
+    return this.getElement<HTMLInputElement>('.input[placeholder="Name"]');
+  }
+
+  get numberOfTeamsInput() {
+    return this.getElement<HTMLInputElement>(
+      '.input[placeholder="# of teams"]'
+    );
+  }
+
+  get numberOfTeamsButton() {
+    return this.getElement<HTMLButtonElement>('.generate_teams_button');
+  }
+
+  get teamsList() {
+    return this.getAllElements<HTMLLIElement>('.team_member');
   }
 
   get membersList() {
@@ -18,6 +37,10 @@ class Sut extends ComponentSut<AppComponent> {
     return this.getElement<HTMLSpanElement>('.error_message');
   }
 
+  get teamsErrorMessage() {
+    return this.getElement<HTMLSpanElement>('#team_error_message');
+  }
+
   get addMemberButton() {
     return this.getElement<HTMLButtonElement>('.add_member_button');
   }
@@ -26,8 +49,16 @@ class Sut extends ComponentSut<AppComponent> {
     this.dispatchInputEvent(this.newMemberInput, memberName);
   }
 
+  typeNumberOfTeams(numberOfTeams: number) {
+    this.dispatchInputEvent(this.numberOfTeamsInput, numberOfTeams.toString());
+  }
+
   clickOnAddButton() {
     this.dispatchClickEvent(this.addMemberButton);
+  }
+
+  clickOnGenerateTeamsButton() {
+    this.dispatchClickEvent(this.numberOfTeamsButton);
   }
 }
 
@@ -57,7 +88,21 @@ describe('App Component', () => {
     expect(sut.membersList.textContent).toContain('Member Name');
   });
 
-  it('shows error message if member is blank', async () => {
+  it('adds multiple members to the list', () => {
+    const members = ['Member Name', 'Member Name #2', 'Member Name #3'];
+
+    members.forEach(member => {
+      sut.typeOnMemberInput(member);
+      sut.detectChanges();
+
+      sut.clickOnAddButton();
+      sut.detectChanges();
+
+      expect(sut.membersList.textContent).toContain(member);
+    });
+  });
+
+  it('shows error message if member is blank', () => {
     sut.typeOnMemberInput('');
     sut.detectChanges();
 
@@ -66,9 +111,131 @@ describe('App Component', () => {
     sut.clickOnAddButton();
     sut.detectChanges();
 
-    expect(sut.membersList).toBeNull();
-    expect(sut.memberErrorMessage.textContent).toContain('Name cant be blank');
+    expect(sut.memberErrorMessage.textContent).toContain(
+      NewMemberBlank.message
+    );
     expect(sut.newMemberInput).toHaveClass('input_error');
     expect(sut.newMemberInput).toHaveClass('input');
+  });
+
+  const cases = [
+    {
+      id: '6 members for 3 teams',
+      members: [
+        'Member Name #1',
+        'Member Name #2',
+        'Member Name #3',
+        'Member Name #4',
+        'Member Name #5',
+        'Member Name #6',
+      ],
+      numberOfTeams: 3,
+      membersPerTeam: 2,
+    },
+    {
+      id: '4 members for 2 teams',
+      members: [
+        'Member Name #1',
+        'Member Name #2',
+        'Member Name #3',
+        'Member Name #4',
+      ],
+      numberOfTeams: 2,
+      membersPerTeam: 2,
+    },
+  ];
+
+  cases.forEach(test => {
+    it(`generate random teams with inputted:  ${test.id}`, () => {
+      test.members.forEach(member => {
+        sut.typeOnMemberInput(member);
+        sut.detectChanges();
+
+        sut.clickOnAddButton();
+        sut.detectChanges();
+      });
+
+      sut.typeNumberOfTeams(test.numberOfTeams);
+      sut.detectChanges();
+
+      sut.clickOnGenerateTeamsButton();
+      sut.detectChanges();
+
+      expect(sut.teamsList.length).toBe(test.numberOfTeams);
+
+      sut.teamsList.forEach(element => {
+        const members = element.textContent!.trim().split(', ');
+
+        expect(members.length).toEqual(test.membersPerTeam);
+      });
+
+      test.members.forEach(member => {
+        expect(sut.membersList).not.toContain(member);
+      });
+
+      expect(sut.numberOfTeamsInput.value).toBe('0');
+    });
+  });
+
+  it('shows and reset error message if have no enough members', () => {
+    const numberOfTeams = 6;
+    const members = ['Member Name', 'Member Name #2', 'Member Name #3'];
+
+    members.forEach(member => {
+      sut.typeOnMemberInput(member);
+      sut.detectChanges();
+
+      sut.clickOnAddButton();
+      sut.detectChanges();
+    });
+
+    sut.typeNumberOfTeams(numberOfTeams);
+    sut.detectChanges();
+
+    sut.clickOnGenerateTeamsButton();
+    sut.detectChanges();
+
+    expect(sut.numberOfTeamsInput).toHaveClass('input_error');
+    expect(sut.teamsErrorMessage.textContent).toContain(
+      NoEnoughMembers.message
+    );
+
+    members.forEach(member => {
+      sut.typeOnMemberInput(member);
+      sut.detectChanges();
+
+      sut.clickOnAddButton();
+      sut.detectChanges();
+    });
+
+    sut.clickOnGenerateTeamsButton();
+    sut.detectChanges();
+
+    expect(sut.numberOfTeamsInput).not.toHaveClass('input_error');
+    expect(sut.teamsErrorMessage).toBeFalsy();
+  });
+
+  it('shows error if number of teams is bellow than/or zero', async () => {
+    const numberOfTeams = 0;
+    const members = ['Member Name', 'Member Name #2', 'Member Name #3'];
+
+    members.forEach(member => {
+      sut.typeOnMemberInput(member);
+      sut.detectChanges();
+
+      sut.clickOnAddButton();
+      sut.detectChanges();
+    });
+
+    sut.typeNumberOfTeams(numberOfTeams);
+    sut.detectChanges();
+
+    sut.clickOnGenerateTeamsButton();
+    sut.detectChanges();
+
+    expect(sut.numberOfTeamsInput).toHaveClass('input_error');
+    expect(sut.teamsErrorMessage.textContent).toContain(
+      NumberOfTeamsBellowThanOrZero.message
+    );
   });
 });
