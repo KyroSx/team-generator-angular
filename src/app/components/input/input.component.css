@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input {
+  padding: 6px;
+  border-radius: 7px;
+}
+
+.input_error {
+  border: 1px red;
+  border-style: solid;
+}
+
+.error_message {
+  font-size: 18px;
+  color: red;
+}

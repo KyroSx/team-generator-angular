@@ -1,0 +1,13 @@
+<div class="container">
+  <input
+    #input
+    [type]="type"
+    [placeholder]="placeholder"
+    [ngClass]="{ input: true, input_error: error }"
+    [value]="value"
+    (input)="onInput(input.value)" />
+
+  <span [id]="error_id" class="error_message" *ngIf="error">
+    {{ error }}
+  </span>
+</div>

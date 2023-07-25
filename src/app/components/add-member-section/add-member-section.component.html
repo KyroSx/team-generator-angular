@@ -1,15 +1,9 @@
 <div class="add_member_container">
-  <input
-    #addMemberInput
-    type="text"
+  <app-input
     placeholder="Name"
-    [ngClass]="{ input: true, input_error: error }"
     [value]="newMember"
-    (input)="onAddNewMember(addMemberInput.value)" />
+    [error]="error"
+    (inputEvent)="onAddNewMember($event.toString())" />
 
   <button class="add_member_button" (click)="onAdd()">Add</button>
 </div>
-
-<span class="error_message" *ngIf="error">
-  {{ error }}
-</span>

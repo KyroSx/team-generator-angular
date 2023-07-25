@@ -5,7 +5,6 @@ import {
   NoEnoughMembers,
   NumberOfTeamsBellowThanOrZero,
 } from './errors';
-import { TeamsService } from './services';
 
 class Sut extends ComponentSut<AppComponent> {
   constructor() {
@@ -13,11 +12,13 @@ class Sut extends ComponentSut<AppComponent> {
   }
 
   get newMemberInput() {
-    return this.getElement<HTMLInputElement>('.input');
+    return this.getElement<HTMLInputElement>('.input[placeholder="Name"]');
   }
 
   get numberOfTeamsInput() {
-    return this.getElement<HTMLInputElement>('[placeholder="# of teams"]');
+    return this.getElement<HTMLInputElement>(
+      '.input[placeholder="# of teams"]'
+    );
   }
 
   get numberOfTeamsButton() {
@@ -37,9 +38,7 @@ class Sut extends ComponentSut<AppComponent> {
   }
 
   get teamsErrorMessage() {
-    return this.getElement<HTMLSpanElement>(
-      '[aria-label="generate teams error message"]'
-    );
+    return this.getElement<HTMLSpanElement>('#team_error_message');
   }
 
   get addMemberButton() {
