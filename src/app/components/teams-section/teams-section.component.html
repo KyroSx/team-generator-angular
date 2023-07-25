@@ -2,6 +2,6 @@
   <li class="team_member" *ngFor="let team of teams">
     <h3>Team</h3>
 
-    {{ team.join(', ') }}
+    {{ formatMembers(team) }}
   </li>
 </ul>

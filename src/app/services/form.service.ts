@@ -6,7 +6,10 @@ import { Injectable } from '@angular/core';
 export class FormService {
   newMember = '';
   numberOfTeams = 0;
-  errors = { newMember: '', teams: '' };
+  errors = {
+    newMember: '',
+    teams: '',
+  };
 
   updateNewMember(value: string) {
     this.newMember = value;

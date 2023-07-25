@@ -7,4 +7,8 @@ import { Component, Input } from '@angular/core';
 })
 export class TeamsSectionComponent {
   @Input() teams!: string[][];
+
+  formatMembers(team: string[]) {
+    return team.join(', ');
+  }
 }

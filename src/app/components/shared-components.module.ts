@@ -4,6 +4,7 @@ import { AddMemberSectionComponent } from './add-member-section/add-member-secti
 import { MembersListComponent } from './members-list/members-list.component';
 import { GenerateTeamsSectionComponent } from './generate-teams-section/generate-teams-section.component';
 import { TeamsSectionComponent } from './teams-section/teams-section.component';
+import { InputComponent } from './input/input.component';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { TeamsSectionComponent } from './teams-section/teams-section.component';
     MembersListComponent,
     GenerateTeamsSectionComponent,
     TeamsSectionComponent,
+    InputComponent,
   ],
   imports: [CommonModule],
   exports: [
